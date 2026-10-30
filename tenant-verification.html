@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identity Verification - Rental Verify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved logo-icon"></i>
+        <span>Rental Verify</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link "><i class="fa-solid fa-house"></i> Home</a>
+        <a href="properties.html" class="nav-link "><i class="fa-solid fa-building"></i> Properties</a>
+        <a href="tenant-verification.html" class="nav-link active"><i class="fa-solid fa-id-card"></i> Identity Verification</a>
+        <a href="agreements.html" class="nav-link "><i class="fa-solid fa-file-contract"></i> Agreements</a>
+        <a href="fraud-detection.html" class="nav-link alert-link "><i class="fa-solid fa-triangle-exclamation"></i> Fraud Console</a>
+        <a href="admin.html" id="navAdminLink" class="nav-link " style="display:none;"><i class="fa-solid fa-user-gear"></i> Admin Dashboard</a>
+        <a href="register.html" id="navRegisterLink" class="nav-link "><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="login.html" id="navLoginLink" class="nav-link "><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container" style="max-width:700px; margin-top:2rem;">
+    <div class="card">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <span class="badge badge-emerald">NIMC GOVERNMENT PORTAL AUTHENTICATION</span>
+        <h2 style="font-size:1.6rem; margin-top:0.5rem;">National Identity Number (NIN) Verification</h2>
+        <p style="color:#64748b; font-size:0.9rem;">Authenticate your 11-digit NIN using SMS OTP or Biometric Facial Scan.</p>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:1.5rem; border-radius:12px; margin-bottom:1.5rem; text-align:center;">
+        <div style="font-size:3rem; color:#10b981; margin-bottom:0.5rem;"><i class="fa-solid fa-shield-check"></i></div>
+        <h3>Verify Official Identity Badge</h3>
+        <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">NIMC verification guarantees zero identity theft and enables instant tenancy agreement eligibility.</p>
+        <button class="btn btn-emerald" style="margin-top:1rem;" onclick="openNimcModal()"><i class="fa-solid fa-id-card"></i> Launch NIMC Verification Portal</button>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container text-center">
+      <p>&copy; 2026 Web-Based Rental Agreement Verification and Fraud Detection System. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tenancy Agreements - Rental Verify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved logo-icon"></i>
+        <span>Rental Verify</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link "><i class="fa-solid fa-house"></i> Home</a>
+        <a href="properties.html" class="nav-link "><i class="fa-solid fa-building"></i> Properties</a>
+        <a href="tenant-verification.html" class="nav-link "><i class="fa-solid fa-id-card"></i> Identity Verification</a>
+        <a href="agreements.html" class="nav-link active"><i class="fa-solid fa-file-contract"></i> Agreements</a>
+        <a href="fraud-detection.html" class="nav-link alert-link "><i class="fa-solid fa-triangle-exclamation"></i> Fraud Console</a>
+        <a href="admin.html" id="navAdminLink" class="nav-link " style="display:none;"><i class="fa-solid fa-user-gear"></i> Admin Dashboard</a>
+        <a href="register.html" id="navRegisterLink" class="nav-link "><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="login.html" id="navLoginLink" class="nav-link "><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h2 style="font-size:1.8rem;"><i class="fa-solid fa-file-contract text-emerald"></i> Cryptographic Tenancy Agreements</h2>
+        <p style="color:#64748b; font-size:0.9rem;">Digital lease agreements secured by SHA-256 digital signature hashes.</p>
+      </div>
+      <button class="btn btn-emerald" onclick="document.getElementById('createAgrModal').style.display='flex'">
+        <i class="fa-solid fa-plus"></i> Generate New Agreement
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>Active Agreement Registry</h3>
+      <div class="table-responsive" style="margin-top:1rem;">
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Landlord</th>
+              <th>Tenant (NIN)</th>
+              <th>Annual Rent</th>
+              <th>SHA-256 Digital Signature</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="agreementTbody">
+            <tr><td colspan="6" class="text-center" style="color:#64748b;">No tenancy agreements generated yet. Click above to create one.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Agreement Modal -->
+  <div id="createAgrModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h2>Generate Lease Contract</h2>
+        <button class="btn btn-outline" onclick="document.getElementById('createAgrModal').style.display='none'">✕</button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); createAgreementSubmit();">
+        <div class="form-group">
+          <label class="form-label">Property Title:</label>
+          <input type="text" id="agrPropTitle" class="form-control" placeholder="e.g. Plot 12, Allen Avenue, Ikeja" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Landlord Full Name:</label>
+          <input type="text" id="agrLandlord" class="form-control" placeholder="e.g. Solomon Landlord" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tenant Full Name:</label>
+          <input type="text" id="agrTenant" class="form-control" placeholder="e.g. Amina Tenant" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tenant 11-Digit NIN:</label>
+          <input type="text" id="agrNin" class="form-control" placeholder="e.g. 22222222222" maxlength="11" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Annual Rent Amount (₦):</label>
+          <input type="number" id="agrRent" class="form-control" placeholder="e.g. 2500000" required>
+        </div>
+
+        <button type="submit" class="btn btn-emerald btn-block">Generate SHA-256 Lease Contract</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => { renderAgreementsTable(); });
+
+    function renderAgreementsTable() {
+      const agreements = getAgreements();
+      const tbody = document.getElementById('agreementTbody');
+      tbody.innerHTML = '';
+
+      if (agreements.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="color:#64748b;">No tenancy agreements generated yet. Click above to create one.</td></tr>';
+        return;
+      }
+
+      agreements.forEach(a => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${a.propertyTitle}</strong></td>
+          <td>${a.landlordName}</td>
+          <td>${a.tenantName} <br><code style="font-size:0.75rem;">${a.tenantNin}</code></td>
+          <td>₦${a.rentAmount.toLocaleString()}</td>
+          <td><code style="font-size:0.75rem; color:#0284c7;">${a.sha256Hash.substring(0, 16)}...</code></td>
+          <td><button class="btn btn-outline" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="openOnlineAgreementViewer('${a.id}')"><i class="fa-solid fa-eye"></i> View Online</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function createAgreementSubmit() {
+      const title = document.getElementById('agrPropTitle').value;
+      const landlord = document.getElementById('agrLandlord').value;
+      const tenant = document.getElementById('agrTenant').value;
+      const nin = document.getElementById('agrNin').value;
+      const rent = parseFloat(document.getElementById('agrRent').value);
+
+      const raw = title + landlord + tenant + nin + rent + Date.now();
+      const msgBuffer = new TextEncoder().encode(raw);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const sha256Hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      const newAgr = {
+        id: 'agr_' + Date.now(),
+        propertyTitle: title,
+        landlordName: landlord,
+        tenantName: tenant,
+        tenantNin: nin,
+        rentAmount: rent,
+        startDate: '2026-01-01',
+        endDate: '2026-12-31',
+        sha256Hash: sha256Hash
+      };
+
+      const agrs = getAgreements();
+      agrs.unshift(newAgr);
+      saveAgreements(agrs);
+
+      alert('✅ Digital Tenancy Agreement Created with SHA-256 Hash!');
+      document.getElementById('createAgrModal').style.display = 'none';
+      renderAgreementsTable();
+    }
+  </script>
+  <footer class="footer">
+    <div class="container text-center">
+      <p>&copy; 2026 Web-Based Rental Agreement Verification and Fraud Detection System. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

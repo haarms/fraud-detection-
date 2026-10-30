@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Sign In - Rental Verify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved logo-icon"></i>
+        <span>Rental Verify</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link "><i class="fa-solid fa-house"></i> Home</a>
+        <a href="properties.html" class="nav-link "><i class="fa-solid fa-building"></i> Properties</a>
+        <a href="tenant-verification.html" class="nav-link "><i class="fa-solid fa-id-card"></i> Identity Verification</a>
+        <a href="agreements.html" class="nav-link "><i class="fa-solid fa-file-contract"></i> Agreements</a>
+        <a href="fraud-detection.html" class="nav-link alert-link "><i class="fa-solid fa-triangle-exclamation"></i> Fraud Console</a>
+        <a href="admin.html" id="navAdminLink" class="nav-link " style="display:none;"><i class="fa-solid fa-user-gear"></i> Admin Dashboard</a>
+        <a href="register.html" id="navRegisterLink" class="nav-link "><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="login.html" id="navLoginLink" class="nav-link active"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container" style="max-width:500px; margin-top:2rem;">
+    <div class="card">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <span class="badge badge-emerald">ACCOUNT SIGN IN</span>
+        <h2 style="font-size:1.6rem; margin-top:0.5rem;">Welcome Back</h2>
+        <p style="color:#64748b; font-size:0.9rem;">Sign in to manage listings, contracts, or verification.</p>
+      </div>
+
+      <div style="background:#e0f2fe; border:1px solid #7dd3fc; padding:0.75rem 1rem; border-radius:8px; margin-bottom:1.25rem; font-size:0.85rem; color:#0369a1;">
+        <strong style="display:block;"><i class="fa-solid fa-user-shield"></i> System Admin Login Credentials:</strong>
+        Email: <code>admin@system.com</code> | Password: <code>admin123</code>
+        <span style="display:block; font-size:0.75rem; color:#0c4a6e; margin-top:0.25rem;">(Admin bypasses email/NIMC checks and opens Admin Dashboard)</span>
+      </div>
+
+      <form onsubmit="event.preventDefault(); loginUser(
+        document.getElementById('loginEmail').value,
+        document.getElementById('loginPassword').value
+      );">
+        <div class="form-group">
+          <label class="form-label">Email Address:</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="e.g. solomon.landlord@gmail.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password:</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Enter password" required>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+          <a href="#" onclick="openForgotPasswordModal()" style="font-size:0.85rem; color:#0284c7; font-weight:600;">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-emerald btn-block"><i class="fa-solid fa-right-to-bracket"></i> Sign In</button>
+      </form>
+
+      <div style="text-align:center; margin-top:1.25rem; font-size:0.9rem;">
+        Don't have an account? <a href="register.html" style="color:#0284c7; font-weight:700;">Register Now</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openForgotPasswordModal() {
+      const modal = document.createElement('div');
+      modal.id = 'forgotModal';
+      modal.className = 'modal-overlay';
+      modal.innerHTML = `
+        <div class="modal-card" style="text-align:center;">
+          <div style="font-size: 2.5rem; color: #0284c7; margin-bottom: 0.5rem;"><i class="fa-solid fa-key"></i></div>
+          <h2>Reset Password</h2>
+          <p style="color:#64748b; font-size:0.9rem; margin-bottom:1.25rem;">Enter your registered email address to receive password reset instructions.</p>
+          
+          <div class="form-group">
+            <input type="email" id="resetEmail" class="form-control" placeholder="Enter your email" required>
+          </div>
+
+          <button class="btn btn-primary btn-block" onclick="alert('✅ Reset link sent to ' + document.getElementById('resetEmail').value); document.getElementById('forgotModal').remove();">Send Reset Link</button>
+          <button class="btn btn-outline btn-block" style="margin-top:0.5rem;" onclick="document.getElementById('forgotModal').remove()">Cancel</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+  </script>
+  <footer class="footer">
+    <div class="container text-center">
+      <p>&copy; 2026 Web-Based Rental Agreement Verification and Fraud Detection System. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

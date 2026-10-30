@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web-Based Rental Agreement Verification and Fraud Detection System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved logo-icon"></i>
+        <span>Rental Verify</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="properties.html" class="nav-link "><i class="fa-solid fa-building"></i> Properties</a>
+        <a href="tenant-verification.html" class="nav-link "><i class="fa-solid fa-id-card"></i> Identity Verification</a>
+        <a href="agreements.html" class="nav-link "><i class="fa-solid fa-file-contract"></i> Agreements</a>
+        <a href="fraud-detection.html" class="nav-link alert-link "><i class="fa-solid fa-triangle-exclamation"></i> Fraud Console</a>
+        <a href="admin.html" id="navAdminLink" class="nav-link " style="display:none;"><i class="fa-solid fa-user-gear"></i> Admin Dashboard</a>
+        <a href="register.html" id="navRegisterLink" class="nav-link "><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="login.html" id="navLoginLink" class="nav-link "><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </nav>
+    </div>
+  </header>
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="badge badge-emerald" style="margin-bottom:1rem; font-size:0.85rem;">🔒 Zero Fraud</span>
+      <h1 class="hero-title">Web-Based Rental Agreement Verification and Fraud Detection System</h1>
+      <p class="hero-subtitle">An intelligent multi-tier digital platform for Landlords, Tenants, and Estate Managers to eliminate duplicate property allocations, fake listings, and forged lease documents.</p>
+      
+      <div style="max-width:650px; margin:0 auto; background:rgba(255,255,255,0.1); padding:1.25rem; border-radius:12px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2);">
+        <form onsubmit="event.preventDefault(); const q=document.getElementById('homeSearch').value.trim(); if(q){ alert('🔍 Verification Search: Record checked against system database.'); }">
+          <div style="display:flex; gap:0.5rem;">
+            <input type="text" id="homeSearch" class="form-control" placeholder="Search Property Address, NIN, or SHA-256 Lease Hash..." style="border:none;">
+            <button type="submit" class="btn btn-emerald"><i class="fa-solid fa-magnifying-glass"></i> Verify</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="adminHeroAlert" style="display:none; max-width:650px; margin:1.25rem auto 0 auto; background:#1e293b; color:#ffffff; padding:1.25rem; border-radius:12px; border:1px solid #10b981; text-align:center;">
+        <span class="badge badge-emerald"><i class="fa-solid fa-user-shield"></i> ADMIN SESSION ACTIVE</span>
+        <p style="margin-top:0.5rem; font-size:0.95rem; color:#cbd5e1;">Logged in as System Administrator. Full privileges enabled.</p>
+        <a href="admin.html" class="btn btn-emerald" style="margin-top:0.75rem; display:inline-block;"><i class="fa-solid fa-user-gear"></i> Access Admin Control Panel</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    
+
+    <div class="grid-3">
+      <div class="card text-center">
+        <div style="font-size:2.5rem; color:#0284c7; margin-bottom:1rem;"><i class="fa-solid fa-location-dot"></i></div>
+        <h3>Address Collision Guard</h3>
+        <p style="color:#64748b; font-size:0.9rem; margin-top:0.5rem;">Strips address punctuation and normalizes location strings to instantly detect duplicate listings by fake agents.</p>
+        <a href="properties.html" class="btn btn-outline btn-block" style="margin-top:1rem;">Explore Properties</a>
+      </div>
+
+      <div class="card text-center">
+        <div style="font-size:2.5rem; color:#10b981; margin-bottom:1rem;"><i class="fa-solid fa-id-card"></i></div>
+        <h3>NIMC Identity Verification</h3>
+        <p style="color:#64748b; font-size:0.9rem; margin-top:0.5rem;">Cross-checks 11-digit NIN records via SMS OTP or biometric face scan to prevent identity theft.</p>
+        <a href="tenant-verification.html" class="btn btn-outline btn-block" style="margin-top:1rem;">Verify NIN Identity</a>
+      </div>
+
+      <div class="card text-center">
+        <div style="font-size:2.5rem; color:#8b5cf6; margin-bottom:1rem;"><i class="fa-solid fa-key"></i></div>
+        <h3>Cryptographic Lease Hash</h3>
+        <p style="color:#64748b; font-size:0.9rem; margin-top:0.5rem;">Generates SHA-256 digital signatures for tenancy agreements to prevent post-signature tampering.</p>
+        <a href="agreements.html" class="btn btn-outline btn-block" style="margin-top:1rem;">Inspect Contracts</a>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container text-center">
+      <p>&copy; 2026 Web-Based Rental Agreement Verification and Fraud Detection System. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

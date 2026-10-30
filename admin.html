@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Rental Verify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved logo-icon"></i>
+        <span>Rental Verify</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link "><i class="fa-solid fa-house"></i> Home</a>
+        <a href="properties.html" class="nav-link "><i class="fa-solid fa-building"></i> Properties</a>
+        <a href="tenant-verification.html" class="nav-link "><i class="fa-solid fa-id-card"></i> Identity Verification</a>
+        <a href="agreements.html" class="nav-link "><i class="fa-solid fa-file-contract"></i> Agreements</a>
+        <a href="fraud-detection.html" class="nav-link alert-link "><i class="fa-solid fa-triangle-exclamation"></i> Fraud Console</a>
+        <a href="admin.html" id="navAdminLink" class="nav-link active" style="display:none;"><i class="fa-solid fa-user-gear"></i> Admin Dashboard</a>
+        <a href="register.html" id="navRegisterLink" class="nav-link "><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="login.html" id="navLoginLink" class="nav-link "><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h2 style="font-size:1.8rem;"><i class="fa-solid fa-user-gear text-emerald"></i> System Admin Dashboard</h2>
+        <p style="color:#64748b; font-size:0.9rem;">Central administrative control panel & user management engine.</p>
+      </div>
+      <button class="btn btn-primary" onclick="document.getElementById('managerModal').style.display='flex'">
+        <i class="fa-solid fa-user-plus"></i> Create Estate Manager Account
+      </button>
+    </div>
+
+    <div class="grid-4" style="margin-bottom:2rem;">
+      <div class="card text-center">
+        <div style="font-size:2rem; color:#0284c7;" id="statUsers">0</div>
+        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">Registered Users</span>
+      </div>
+      <div class="card text-center">
+        <div style="font-size:2rem; color:#10b981;" id="statProps">0</div>
+        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">Listed Properties</span>
+      </div>
+      <div class="card text-center">
+        <div style="font-size:2rem; color:#8b5cf6;" id="statAgrs">0</div>
+        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">Lease Agreements</span>
+      </div>
+      <div class="card text-center">
+        <div style="font-size:2rem; color:#ef4444;" id="statFraud">0</div>
+        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">Blocked Fraud Alerts</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>System User Registry</h3>
+      <div class="table-responsive" style="margin-top:1rem;">
+        <table>
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Email Address</th>
+              <th>Role</th>
+              <th>NIN Number</th>
+              <th>Email Status</th>
+              <th>NIMC Status</th>
+            </tr>
+          </thead>
+          <tbody id="adminUserTbody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Estate Manager Modal -->
+  <div id="managerModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h2>Provision Estate Manager</h2>
+        <button class="btn btn-outline" onclick="document.getElementById('managerModal').style.display='none'">✕</button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); createEstateManager();">
+        <div class="form-group">
+          <label class="form-label">Manager Full Name:</label>
+          <input type="text" id="mName" class="form-control" placeholder="e.g. Chief Estate Manager" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Manager Email:</label>
+          <input type="email" id="mEmail" class="form-control" placeholder="e.g. manager@agency.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password:</label>
+          <input type="password" id="mPass" class="form-control" placeholder="Default: manager123" required>
+        </div>
+
+        <button type="submit" class="btn btn-emerald btn-block">Provision Account</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser();
+      if (!user || user.role !== 'Admin') {
+        alert('🔒 ACCESS DENIED: Admin privileges required. Please sign in as System Administrator (admin@system.com / admin123).');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      renderAdminStats();
+    });
+
+    function renderAdminStats() {
+      const users = getUsers();
+      const props = getProperties();
+      const agrs = getAgreements();
+      const fraud = getFraudAlerts();
+
+      document.getElementById('statUsers').innerText = users.length;
+      document.getElementById('statProps').innerText = props.length;
+      document.getElementById('statAgrs').innerText = agrs.length;
+      document.getElementById('statFraud').innerText = fraud.length;
+
+      const tbody = document.getElementById('adminUserTbody');
+      tbody.innerHTML = '';
+
+      users.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${u.fullName}</strong></td>
+          <td>${u.email}</td>
+          <td><span class="badge badge-blue">${u.role}</span></td>
+          <td><code>${u.nin}</code></td>
+          <td>${u.isEmailVerified ? '<span class="badge badge-emerald">Verified</span>' : '<span class="badge badge-danger">Pending</span>'}</td>
+          <td>${u.isNinVerified ? '<span class="badge badge-emerald">NIMC Verified</span>' : '<span class="badge badge-danger">Unverified</span>'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function createEstateManager() {
+      const name = document.getElementById('mName').value;
+      const email = document.getElementById('mEmail').value;
+      const pass = document.getElementById('mPass').value;
+
+      let users = getUsers();
+      if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+        alert('An account with email ' + email + ' already exists.');
+        return;
+      }
+
+      users.push({
+        id: 'usr_' + Date.now(),
+        fullName: name,
+        email: email,
+        password: pass,
+        role: 'EstateManager',
+        nin: '99999999999',
+        profilePic: DEFAULT_AVATAR,
+        isEmailVerified: true,
+        isNinVerified: true,
+        activePropertyId: null
+      });
+
+      saveUsers(users);
+      alert('✅ Estate Manager Account Provisioned Successfully!');
+      document.getElementById('managerModal').style.display = 'none';
+      renderAdminStats();
+    }
+  </script>
+  <footer class="footer">
+    <div class="container text-center">
+      <p>&copy; 2026 Web-Based Rental Agreement Verification and Fraud Detection System. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

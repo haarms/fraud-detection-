@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Registration - Rental Verify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved logo-icon"></i>
+        <span>Rental Verify</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link "><i class="fa-solid fa-house"></i> Home</a>
+        <a href="properties.html" class="nav-link "><i class="fa-solid fa-building"></i> Properties</a>
+        <a href="tenant-verification.html" class="nav-link "><i class="fa-solid fa-id-card"></i> Identity Verification</a>
+        <a href="agreements.html" class="nav-link "><i class="fa-solid fa-file-contract"></i> Agreements</a>
+        <a href="fraud-detection.html" class="nav-link alert-link "><i class="fa-solid fa-triangle-exclamation"></i> Fraud Console</a>
+        <a href="admin.html" id="navAdminLink" class="nav-link " style="display:none;"><i class="fa-solid fa-user-gear"></i> Admin Dashboard</a>
+        <a href="register.html" id="navRegisterLink" class="nav-link active"><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="login.html" id="navLoginLink" class="nav-link "><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container" style="max-width:550px; margin-top:2rem;">
+    <div class="card">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <span class="badge badge-emerald">NEW USER REGISTRATION</span>
+        <h2 style="font-size:1.6rem; margin-top:0.5rem;">Create Your Account</h2>
+        <p style="color:#64748b; font-size:0.9rem;">Register as a Landlord or Tenant with 11-Digit NIN verification.</p>
+      </div>
+
+      <form onsubmit="event.preventDefault(); registerUser(
+        document.getElementById('regName').value,
+        document.getElementById('regEmail').value,
+        document.getElementById('regPass').value,
+        document.getElementById('regRole').value,
+        document.getElementById('regNin').value
+      );">
+        <div class="form-group">
+          <label class="form-label">Full Legal Name:</label>
+          <input type="text" id="regName" class="form-control" placeholder="e.g. Olamide Adebayo" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address:</label>
+          <input type="email" id="regEmail" class="form-control" placeholder="e.g. olamide@gmail.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Account Role:</label>
+          <select id="regRole" class="form-control" required>
+            <option value="Landlord">Landlord (Property Owner)</option>
+            <option value="Tenant">Tenant (Renter / Prospective Renter)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">11-Digit National Identification Number (NIN):</label>
+          <input type="text" id="regNin" class="form-control" placeholder="e.g. 12345678901" maxlength="11" required>
+          <span style="font-size:0.75rem; color:#64748b; margin-top:0.25rem; display:block;">
+            🔒 Strictly validated against duplicate identity collision records.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Create Password:</label>
+          <input type="password" id="regPass" class="form-control" placeholder="Min. 6 characters" required>
+        </div>
+
+        <button type="submit" class="btn btn-emerald btn-block"><i class="fa-solid fa-user-plus"></i> Register & Verify Email</button>
+      </form>
+
+      <div style="text-align:center; margin-top:1.25rem; font-size:0.9rem;">
+        Already have an account? <a href="login.html" style="color:#0284c7; font-weight:700;">Sign In</a>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container text-center">
+      <p>&copy; 2026 Web-Based Rental Agreement Verification and Fraud Detection System. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

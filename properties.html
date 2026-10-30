@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Listings - Rental Verify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved logo-icon"></i>
+        <span>Rental Verify</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link "><i class="fa-solid fa-house"></i> Home</a>
+        <a href="properties.html" class="nav-link active"><i class="fa-solid fa-building"></i> Properties</a>
+        <a href="tenant-verification.html" class="nav-link "><i class="fa-solid fa-id-card"></i> Identity Verification</a>
+        <a href="agreements.html" class="nav-link "><i class="fa-solid fa-file-contract"></i> Agreements</a>
+        <a href="fraud-detection.html" class="nav-link alert-link "><i class="fa-solid fa-triangle-exclamation"></i> Fraud Console</a>
+        <a href="admin.html" id="navAdminLink" class="nav-link " style="display:none;"><i class="fa-solid fa-user-gear"></i> Admin Dashboard</a>
+        <a href="register.html" id="navRegisterLink" class="nav-link "><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="login.html" id="navLoginLink" class="nav-link "><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h2 style="font-size:1.8rem;"><i class="fa-solid fa-building text-emerald"></i> Verified Property Portal</h2>
+        <p style="color:#64748b; font-size:0.9rem;">Listing portal protected by real-time Address Collision Detection.</p>
+      </div>
+      <button id="addPropBtn" class="btn btn-emerald" style="display:none;" onclick="document.getElementById('addPropModal').style.display='flex'">
+        <i class="fa-solid fa-plus"></i> List New Property
+      </button>
+    </div>
+
+    <div id="landlordTenantSection" class="card" style="display:none; margin-bottom:2rem;">
+      <h3><i class="fa-solid fa-users text-emerald"></i> My Registered Tenants</h3>
+      <div class="table-responsive" style="margin-top:1rem;">
+        <table>
+          <thead>
+            <tr>
+              <th>Tenant Name</th>
+              <th>Property Rented</th>
+              <th>NIN Number</th>
+              <th>NIMC Status</th>
+              <th>Lease Period</th>
+            </tr>
+          </thead>
+          <tbody id="landlordTenantTbody">
+            <tr><td colspan="5" class="text-center" style="color:#64748b;">No active tenants registered under your properties yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="propertyListContainer" class="grid-3">
+      <!-- Dynamically populated via app.js -->
+    </div>
+  </div>
+
+  <!-- Add Property Modal -->
+  <div id="addPropModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h2>List New Property</h2>
+        <button class="btn btn-outline" onclick="document.getElementById('addPropModal').style.display='none'">✕</button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); addProperty(
+        document.getElementById('pTitle').value,
+        document.getElementById('pAddress').value,
+        document.getElementById('pRent').value,
+        document.getElementById('pImg').value
+      );">
+        <div class="form-group">
+          <label class="form-label">Property Title:</label>
+          <input type="text" id="pTitle" class="form-control" placeholder="e.g. Executive 3-Bed Duplex" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Full Address (Normalized for Collision Check):</label>
+          <input type="text" id="pAddress" class="form-control" placeholder="e.g. Plot 15, Admiralty Way, Lekki, Lagos" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Annual Rent (₦ Naira):</label>
+          <input type="number" id="pRent" class="form-control" placeholder="e.g. 3500000" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Property Photo Template:</label>
+          <select id="pImg" class="form-control">
+            <option value="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'><rect width='800' height='400' fill='%230f172a'/><text x='400' y='200' fill='%23ffffff' font-size='28' font-family='sans-serif' text-anchor='middle'>Modern Serviced Apartment</text></svg>">Modern Serviced Apartment</option>
+            <option value="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'><rect width='800' height='400' fill='%230284c7'/><text x='400' y='200' fill='%23ffffff' font-size='28' font-family='sans-serif' text-anchor='middle'>Luxury Duplex Villa</text></svg>">Luxury Duplex Villa</option>
+            <option value="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'><rect width='800' height='400' fill='%23059669'/><text x='400' y='200' fill='%23ffffff' font-size='28' font-family='sans-serif' text-anchor='middle'>Executive Penthouse</text></svg>">Executive Penthouse</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-emerald btn-block">Add Property Listing</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser();
+      if (user && user.role === 'Landlord') {
+        document.getElementById('addPropBtn').style.display = 'inline-flex';
+        document.getElementById('landlordTenantSection').style.display = 'block';
+      }
+
+      renderProperties();
+    });
+
+    function renderProperties() {
+      const user = getCurrentUser();
+      const props = getProperties();
+      const container = document.getElementById('propertyListContainer');
+      container.innerHTML = '';
+
+      if (props.length === 0) {
+        container.innerHTML = '<div class="card" style="grid-column:1/-1; text-align:center;"><p style="color:#64748b;">No property listings available. Landlords can add listings using the button above.</p></div>';
+        return;
+      }
+
+      props.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.padding = '0';
+        card.style.overflow = 'hidden';
+        card.innerHTML = `
+          <img src="${p.imageUrl}" alt="Property" style="width:100%; height:180px; object-fit:cover;">
+          <div style="padding:1.25rem;">
+            <span class="badge badge-emerald">₦${p.rentAmount.toLocaleString()} / year</span>
+            <h3 style="font-size:1.1rem; margin-top:0.5rem;">${p.title}</h3>
+            <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;"><i class="fa-solid fa-location-dot"></i> ${p.address}</p>
+            <p style="font-size:0.8rem; color:#0284c7; font-weight:700; margin-top:0.5rem;">Landlord: ${p.landlordName}</p>
+            <button class="btn btn-outline btn-block" style="margin-top:1rem;" onclick="alert('✅ Property Details Verified. Contact Landlord: ${p.landlordName}')">View Details & Apply</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+  </script>
+  <footer class="footer">
+    <div class="container text-center">
+      <p>&copy; 2026 Web-Based Rental Agreement Verification and Fraud Detection System. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
